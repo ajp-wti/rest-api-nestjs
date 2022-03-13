@@ -49,8 +49,6 @@ export class FileReaderService {
   getFileProduct(product) {
     this.getFileData();
 
-    console.log(this.fileData);
-
     const dataByProduct = this.fileData.filter(
       (data) => data.product === product,
     );
@@ -86,10 +84,10 @@ export class FileReaderService {
 
     const newObject = [
       {
-        Segment: newData.segment,
-        Country: newData.country,
-        Product: newData.product,
-        UnitSold: newData.unitSold,
+        Segment: newData.Segment,
+        Country: newData.Country,
+        Product: newData.Product,
+        UnitSold: newData.UnitSold,
       },
     ];
 
@@ -101,26 +99,35 @@ export class FileReaderService {
 
     XLSX.writeFile(workbook, 'assets/file.xlsx');
 
-    return `Dodano nowy obiekt: ${JSON.stringify(newObject)}`;
+    const sheet_name_list = workbook.SheetNames;
+    const xlData = XLSX.utils.sheet_to_json(
+      workbook.Sheets[sheet_name_list[0]],
+    );
+
+    const filteredData = xlData.map((data) => ({
+      segment: data['Segment'],
+      country: data['Country'],
+      product: data['Product'],
+      unitSold: data['Units Sold'],
+    }));
+
+    this.fileData = filteredData;
+
+    return this.fileData;
   }
 
   removeData(id: number) {
+    const idValue = +id + 1;
+
     const workbook = XLSX.readFile('assets/file.xlsx');
 
     const sheet_name_list = workbook.SheetNames;
     const workBookSheet = workbook.Sheets[sheet_name_list[0]];
 
-    const xlData = XLSX.utils.sheet_to_json(
-      workbook.Sheets[sheet_name_list[0]],
-    );
-
-    const newArr = xlData.map((v, i) => Object.assign(v, { id: i }));
-
-    const arrWithRemovedData = newArr.filter((data) => data.id !== +id);
-
     function ec(r, c) {
       return XLSX.utils.encode_cell({ r: r, c: c });
     }
+
     function delete_row(ws, row_index) {
       const variable = XLSX.utils.decode_range(ws['!ref']);
       for (let R = row_index; R < variable.e.r; ++R) {
@@ -132,8 +139,26 @@ export class FileReaderService {
       ws['!ref'] = XLSX.utils.encode_range(variable.s, variable.e);
     }
 
-    delete_row(workBookSheet, +id);
+    delete_row(workBookSheet, idValue);
 
+    XLSX.writeFile(workbook, 'assets/file.xlsx');
 
+    const workbookUpdated = XLSX.readFile('assets/file.xlsx');
+
+    const sheet_name_list_updated = workbookUpdated.SheetNames;
+    const xlData = XLSX.utils.sheet_to_json(
+      workbookUpdated.Sheets[sheet_name_list_updated[0]],
+    );
+
+    const filteredData = xlData.map((data) => ({
+      segment: data['Segment'],
+      country: data['Country'],
+      product: data['Product'],
+      unitSold: data['Units Sold'],
+    }));
+
+    this.fileData = filteredData;
+
+    return this.fileData;
   }
 }
