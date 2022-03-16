@@ -34,6 +34,11 @@ export class FileReaderController {
     return this.fileService.getFileUnitsSoldTotal(segment, country);
   }
 
+  @Get('allData/:data')
+  searchData(@Param('data') data) {
+    return this.fileService.searchData(data);
+  }
+
   @Post()
   addNewData(@Body() body) {
     return this.fileService.addNewData(body);

@@ -117,8 +117,6 @@ export class FileReaderService {
   }
 
   removeData(id: number) {
-    const idValue = +id + 1;
-
     const workbook = XLSX.readFile('assets/file.xlsx');
 
     const sheet_name_list = workbook.SheetNames;
@@ -139,7 +137,7 @@ export class FileReaderService {
       ws['!ref'] = XLSX.utils.encode_range(variable.s, variable.e);
     }
 
-    delete_row(workBookSheet, idValue);
+    delete_row(workBookSheet, id);
 
     XLSX.writeFile(workbook, 'assets/file.xlsx');
 
@@ -160,5 +158,19 @@ export class FileReaderService {
     this.fileData = filteredData;
 
     return this.fileData;
+  }
+
+  searchData(data: string) {
+    this.getFileData();
+
+    const searchedData = this.fileData.map((el) => {
+      if (Object.values(el).includes(data)) {
+        return el;
+      }
+    });
+
+    const finalSearchData = searchedData.filter((el) => el);
+
+    return finalSearchData;
   }
 }

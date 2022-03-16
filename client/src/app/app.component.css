@@ -1,0 +1,55 @@
+.select {
+  width: 20rem;
+}
+
+.select-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.selects-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.select-container>button {
+  margin: 0 1rem;
+}
+
+.add-container {
+  margin: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.add-container>h2 {
+  margin-top: 5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.add-container>button {
+  margin-top: 1rem;
+  text-align: center;
+  width: 70%;
+  height: 4rem;
+}
+
+.add-segment {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.add-segment>div {
+  width: 100%;
+  margin-right: 2rem;
+}

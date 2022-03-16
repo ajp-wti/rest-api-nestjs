@@ -1,13 +1,11 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, tap, throwError} from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiServiceService {
-  dataUrl = "http://localhost:8080/fileData";
+  dataUrl = "http://localhost:3000/fileData";
 
   constructor(private http: HttpClient) { }
 
@@ -33,5 +31,9 @@ export class ApiServiceService {
 
   removeData(id: any) {
     return this.http.delete<[]>(`${this.dataUrl}/row/${id}`)
+  }
+
+  searchValue(data: any) {
+    return this.http.get<[]>(`${this.dataUrl}/allData/${data}`)
   }
 }
