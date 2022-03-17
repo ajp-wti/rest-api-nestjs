@@ -8,22 +8,22 @@
 4. In project's folder open terminal and type:
 
 ```bash
-npm start-server-install
+npm run start-server-install
 ```
 
 5. After installation complete in next step type:
 
 ```bash
-npm start-client-install
+npm run start-client-install
 ```
 
 6. After installations complete open first terminal in the project's folder and type:
 ```bash
-npm start-server
+npm run start-server
 ```
 7. Open second terminal in project's folder and type:
 ```bash
-npm start-client
+npm run start-client
 ```
 8. Remember to not close the terminals from point 6 and 7
 9. Open the browser and type in url:
