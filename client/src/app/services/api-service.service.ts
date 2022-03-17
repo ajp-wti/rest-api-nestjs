@@ -36,4 +36,8 @@ export class ApiServiceService {
   searchValue(data: any) {
     return this.http.get<[]>(`${this.dataUrl}/allData/${data}`)
   }
+
+  getTotalUnit(segment: any, country: any) {
+    return this.http.get<[]>(`${this.dataUrl}/unitsSolds/${segment}/${country}`)
+  }
 }

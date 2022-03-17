@@ -9,16 +9,22 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class AppComponent implements OnInit {
   dataContent = []
+  totalUnitSum: any = {
+    country: '',
+    segment: '',
+    sum: '',
+  }
   noDuplicatedCountry: any = []
   noDuplicatedProduct: any = []
   noDuplicatedSegment: any = []
   totalRecords: any
   page: any = 1
+  showInvalid: boolean = false
+  showInvalidUnit: boolean = false
+  isTotalSum: boolean = false
 
   public title = 'My Angular App';
   public isAuthenticated: boolean;
-
-  selectedSegment: string | undefined
 
   dataForm = this.fb.group({
     segment: [''],
@@ -29,6 +35,8 @@ export class AppComponent implements OnInit {
     newProduct: ['', Validators.required],
     newUnitSold: ['', Validators.required],
     searchData: [''],
+    segmentUnit: [''],
+    countryUnit: [''],
   })
 
   constructor(
@@ -39,6 +47,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllData()
+  }
+
+  getAllData() {
     this.apiService.getData().subscribe((result)=>{
       result.forEach((el: any, index) => {
         el.id = index
@@ -112,16 +124,26 @@ export class AppComponent implements OnInit {
         UnitSold: this.dataForm.get('newUnitSold')!.value,
       }
 
-    this.apiService.addNewData(newDataToAdd).subscribe((result)=>{
-      result.forEach((el: any, index) => {
-        el.id = index
+    if (this.dataForm.invalid) {
+      this.showInvalid = true
+      setTimeout(() => {
+        this.showInvalid = false
+      },3000)
+    } else {
+      this.showInvalid = false
+
+
+      this.apiService.addNewData(newDataToAdd).subscribe((result)=>{
+        result.forEach((el: any, index) => {
+          el.id = index
+        })
+
+        this.dataContent = result
+        this.totalRecords = result.length
       })
 
-      this.dataContent = result
-      this.totalRecords = result.length
-    })
-
-    this.dataForm.reset()
+      this.dataForm.reset()
+    }
   }
 
   onRemove(event: Event, index: any) {
@@ -140,6 +162,11 @@ export class AppComponent implements OnInit {
   onSearch(event: Event) {
     event.preventDefault();
 
+    if (!this.dataForm.get('searchData')?.value) {
+      this.getAllData()
+      return
+    }
+
     this.apiService.searchValue(this.dataForm.get('searchData')?.value).subscribe((result)=>{
       result.forEach((el: any, index) => {
         el.id = index
@@ -148,5 +175,31 @@ export class AppComponent implements OnInit {
       this.dataContent = result
       this.totalRecords = result.length
     })
+  }
+
+  getTotalUnitSum(event: Event) {
+    event.preventDefault();
+
+    const selectedCountry = this.dataForm.get('countryUnit')?.value;
+    const selectedSegment = this.dataForm.get('segmentUnit')?.value;
+
+    if (!selectedCountry || !selectedSegment) {
+      this.showInvalidUnit = true
+      setTimeout(() => {
+        this.showInvalidUnit = false
+      },3000)
+    } else {
+      this.showInvalidUnit = false
+
+      this.apiService.getTotalUnit(selectedSegment, selectedCountry).subscribe((result: any)=>{
+        this.isTotalSum = true
+
+        this.totalUnitSum.segment = result.segment
+        this.totalUnitSum.country = result.country
+        this.totalUnitSum.sum = result.totalUnitSold
+      })
+
+      this.dataForm.reset()
+    }
   }
 }

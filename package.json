@@ -1,0 +1,26 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "Ajp-rules",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "cd server && npm install && npm run start:dev",
+    "start-client": "cd client && npm install && npm run start",
+    "start-server-install": "cd server && npm install",
+    "start-client-install": "cd client && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajp-wti/rest-api-nestjs.git"
+  },
+  "keywords": [
+    "Hiorii"
+  ],
+  "author": "Hiorii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajp-wti/rest-api-nestjs/issues"
+  },
+  "homepage": "https://github.com/ajp-wti/rest-api-nestjs#readme"
+}

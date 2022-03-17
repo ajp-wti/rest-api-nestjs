@@ -163,8 +163,20 @@ export class FileReaderService {
   searchData(data: string) {
     this.getFileData();
 
+    const newData = data.toString().toLowerCase();
+
     const searchedData = this.fileData.map((el) => {
-      if (Object.values(el).includes(data)) {
+      const segment = (<string>Object.values(el)[0]).toLowerCase();
+      const product = (<string>Object.values(el)[1]).toLowerCase();
+      const country = (<string>Object.values(el)[2]).toLowerCase();
+      const unit = <string>Object.values(el)[3].toString().toLowerCase();
+
+      if (
+        segment.includes(newData) ||
+        product.includes(newData) ||
+        country.includes(newData) ||
+        unit.includes(newData)
+      ) {
         return el;
       }
     });

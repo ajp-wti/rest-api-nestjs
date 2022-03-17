@@ -26,45 +26,56 @@
         <button class="btn btn-primary" (click)="getFileProduct($event)">Get product</button>
       </div>
     </div>
-    <div class="search">
-      <label for="searchValue">Search: </label>
-      <input class="form-control" id="searchValue" type="text" formControlName="searchData">
-      <button class="btn btn-primary" (click)="onSearch($event)">Search</button>
+    <div class="totalUnit">
+      <div class="select-container">
+        <select class="form-control select" formControlName="countryUnit" id="countryUnit">
+          <option *ngFor="let country of noDuplicatedCountry; let i = index" [value]="country">
+            {{country}}
+          </option>
+        </select>
+      </div>
+      <div class="select-container">
+        <select class="form-control select" formControlName="segmentUnit" id="segmentUnit">
+          <option *ngFor="let segment of noDuplicatedSegment; let i = index" [value]="segment">
+            {{segment}}
+          </option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="getTotalUnitSum($event)">Get total unit sold value</button>
+      <p *ngIf="showInvalidUnit" class="reqi">Choose both required values</p>
+      <p *ngIf="isTotalSum">For {{ totalUnitSum.segment }} segment in {{ totalUnitSum.country }} the total sum of unit sold is equal to {{ totalUnitSum.sum }}</p>
     </div>
     <div class="add-container">
       <h2>Add new item</h2>
       <div class="add-segment">
         <div>
           <label for="segmentAdd">Segment: : </label>
-          <input class="form-control" id="segmentAdd" type="text" formControlName="newSegment">
+          <input class="form-control" id="segmentAdd" type="text" formControlName="newSegment" required>
         </div>
         <div>
           <label for="countryAdd">Country: </label>
-          <input class="form-control" id="countryAdd" type="text" formControlName="newCountry">
+          <input class="form-control" id="countryAdd" type="text" formControlName="newCountry" required>
         </div>
       </div>
       <div class="add-segment">
         <div>
           <label for="productAdd">First Name: </label>
-          <input class="form-control" id="productAdd" type="text" formControlName="newProduct">
+          <input class="form-control" id="productAdd" type="text" formControlName="newProduct" required>
         </div>
         <div>
           <label for="unitSoldAdd">Last Name: </label>
-          <input class="form-control" id="unitSoldAdd" type="text" formControlName="newUnitSold">
+          <input class="form-control" id="unitSoldAdd" type="text" formControlName="newUnitSold" required>
         </div>
       </div>
+      <p *ngIf="showInvalid">Insert all required data</p>
       <button class="btn btn-primary" (click)="addNewData($event)">Add new</button>
+    </div>
+    <div class="search">
+      <input class="form-control" id="searchValue" type="text" formControlName="searchData" placeholder="Search">
+      <button class="btn btn-primary" (click)="onSearch($event)">Search</button>
     </div>
   </div>
 </form>
-
-<!--<form ngDefaultControl [formControl]="product">-->
-<!--  <label for="product">Product: </label>-->
-<!--  <input id="product" type="text" [formControl]="product">-->
-<!--  <button (click)="getFileProduct($event)">Get Product</button>-->
-<!--</form>-->
-
-
 
 <table class="table table-striped">
   <thead>
